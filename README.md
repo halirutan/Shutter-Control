@@ -14,7 +14,7 @@ Although my requirements were simple, I wanted a bit more than that:
 - it should be possible to open/close all shutters on the same floor with a triple-click on a specific button
 - it should be possible to open/close all window shutters in the house at once
 
-##![install](http://i.imgur.com/ayLRwo3.png) Hardware set-up and installation
+## ![install](http://i.imgur.com/ayLRwo3.png) Hardware set-up and installation
 
 The Siemens LOGO! 8 is a [programmable logic controller (PLC)](http://en.wikipedia.org/wiki/Programmable_logic_controller) with several analog/digital in- and outputs and the possibility to extend the base module with input-/output-extension modules. Every installed push-button in the house got one digital input and each shutter got 2 digital outputs, one for up and one for down.
 
@@ -24,7 +24,7 @@ To realize this setting, the following components were required:
 - [2x Siemens Basic Modules 12/24 RCEO 0BA8](https://mall.industry.siemens.com/mall/en/us/Catalog/Product/6ED1052-2MD00-0BA8)
 - [4x Siemens Digital Extension DM16 24R 0BA2](https://mall.industry.siemens.com/mall/en/us/Catalog/Product/6ED1055-1NB10-0BA2)
 
-###Wiring
+### Wiring
 
 The wiring is straight forward: The push-buttons are driven by the 24V Power Module and when you push a button it sets one of the digital inputs to high. The digital outputs work as switches for the 220V shutter motors and they just power them when closed. 
 
@@ -34,7 +34,7 @@ My test-program was nothing more that a simple circuit where each digital input 
 
 Finally, after everything works the two LOGO! Basic Modules need to be connected with a network cable because for steering the whole house they need to communicate.
 
-##![programming logo](http://i.imgur.com/iZbiTUl.png) Programming LOGO!
+## ![programming logo](http://i.imgur.com/iZbiTUl.png) Programming LOGO!
 
 Programming the Siemens PLC is done by a proprietary software called [LOGO Soft Comfort](http://w3.siemens.com/mcms/programmable-logic-controller/en/logic-module-logo/demo-software/Pages/Default.aspx), a java based graphical application. The file you find in the [logo subfolder of this repository](https://github.com/halirutan/Shutter-Control/tree/master/logo) can be opened with this program. Circuits are created by dragging and wiring basic and complex logic modules like AND, XOR or DELAYS.
 
@@ -58,7 +58,7 @@ The inputs `I13` and `I14` are the up/down push-buttons resp. The ORs `B110` and
 
 The green flags in the image are the inputs coming when the whole floor is activated.
 
-###Implementing a triple-click
+### Implementing a triple-click
 
 Since every push-button is already in use when pressed, I needed a way to give them special meaning. The requirement was that the main-functionality is not disturbed: Every running shutter can still be stopped by a press on the opposite direction or controlled by a longer press as usual.
 
@@ -72,7 +72,7 @@ The line left of e.g. the *OffDelay* `B038` comes from a push-button. With a but
 
 This output is now connected with all shutter inputs it needs to steer. So if this is the triple-click for the upper floor, all shutters of the upper floor will get this output. Remember that each shutter input needs to be held at least for 0.3s to start it. Since every push of the triple-click restarts the *OffDelay* timer, the inputs are (theoretically) held for 2s. Practically, when the high signal is distributed to all the windows I have incorporated a very small (and different) delay so that the shutters don't start at the *exact same time*.  This is grounded in the fact that electrical motors have a higher start current and I didn't wanted 17 shutters going off the same time. So an important is that the longest delay does not exceed 1.7s to make this specific shutter start.
 
-##![Contact Icon](http://i.imgur.com/f15dshA.png) Contact
+## ![Contact Icon](http://i.imgur.com/f15dshA.png) Contact
 
 If you have questions, like to discuss details or want to have further information just [open an issue](https://github.com/halirutan/Shutter-Control/issues) here.
 
